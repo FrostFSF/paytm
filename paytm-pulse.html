@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Clone</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&family=Manrope:wght@400;500;600;700&family=Poppins:wght@300;400;600&family=Quicksand:wght@500;700&family=Roboto:wght@400;700&display=swap');
+
+        body, * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 10px 10px 10px;
+        }
+
+        .navbar i {
+            color: rgb(49, 49, 49);
+        }
+
+        .navbar > .nav-logo {
+            width: 70px;
+            height: 23px;
+        }
+        
+        .navbar > .nav-help {
+            font-family: 'Manrope', sans-serif;
+            font-weight: bold;
+            color: rgb(79, 187, 249);
+            font-size: 14px;
+        }
+
+        .payment-info {
+            background-color: rgba(2, 214, 243, 0.255);
+            width: 93vw;
+            /* min-height: 50vh; */
+            height: auto;
+            border-radius: 10px;
+            margin: 10px auto;
+            overflow: hidden;
+            padding: 15px 0px 0px 0px;
+        }
+
+        .payment-info .store-info .seller-info {
+            display: flex;
+            justify-content: space-evenly;
+            padding-bottom: 10px;
+        }
+
+        .payment-info .store-info .seller-info .img{
+            background-color: aliceblue;
+            width: 50px;
+            height: 50px;
+            border-radius: 50px;
+        }
+
+        .payment-info .store-info .seller-info .seller-name {
+            font-family: 'Inter', sans-serif;
+            max-width: 170px;
+        }
+
+        .payment-info .store-info .seller-info .seller-header {
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .payment-info .store-info .seller-info .verified-store-number {
+            font-family: 'Inter', sans-serif;
+            font-weight: bold;
+            background-color: whitesmoke;
+            padding: 3px 15px;
+            border-radius: 50px;
+            height: fit-content;
+        }
+
+        .payment-info .store-info .seller-info .seller-name .verified-name {
+            font-size: 13px;
+            padding-top: 10px;
+        }
+
+        .order-info {
+            width: 60vw;
+            margin: 10px auto;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .order-info .payment-amount {
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+        }
+        
+        .order-info .order-amount {
+            padding-top: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .order-info .order-amount img {
+            padding: 10px;
+        }
+        
+        .order-info .payment-date {
+            padding: 20px 0px;
+            font-size: 13px;
+        }
+
+        .order-info .payment-order-id {
+            padding: 10px 0px;
+            color: rgb(30, 173, 255);
+            font-size: 15px;
+        }
+
+        .payment-links {
+            display: flex;
+            justify-content: space-evenly;
+            padding-bottom: 20px;
+        }
+
+        .payment-links .buttons {
+            font-family: 'Manrope', sans-serif;
+            font-weight: bold;
+            font-size: 13px;
+            background-color: whitesmoke;
+            padding: 5px 10px;
+            border: 1px solid rgba(0, 0, 0, 0.209);
+            border-radius: 50px;
+        }
+
+        .payment-info .decoratives > .d1 {
+            width: 100%;
+            height: 8px;
+            background-color: rgb(39, 186, 255);
+        }
+
+        .payment-info .decoratives > .d2 {
+            width: 100%;
+            height: 8px;
+            background-color: blue;
+        }
+
+        .advertisement {
+            width: 95vw;
+            height: fit-content;
+            border: 1px solid rgba(134, 134, 134, 0.563);
+            border-radius: 10px;
+            padding: 5px 0px;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            margin: auto;
+        }
+
+        .advertisement .ad-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50px;
+            background-color: whitesmoke;
+        }
+
+        .advertisement .ad-logo-headers {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .advertisement .ad-logo-headers .ad-primary-h {
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        .advertisement .ad-logo-headers .ad-secondary-h {
+            font-size: 12px;
+            color: rgb(87, 87, 87);
+        }
+
+        .advertisement .ad-button {
+            font-size: 12px;
+            color: whitesmoke;
+            font-family: 'Manrope', sans-serif;
+            padding: 5px 10px;
+            font-weight: bold;
+            background-color: rgb(0, 166, 255);
+            border-radius: 50px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <i class="fa-solid fa-arrow-left" onclick="back(this)"></i>
+        <img src="./paytm-logo.png" alt="" class="nav-logo">   
+        <p class="nav-help">Help</p>
+    </div>
+
+    <div class="payment-info">
+        <div class="store-info">
+            <div class="seller-info">
+                <div class="img"></div>
+                <div class="seller-name">
+                    <p class="seller-header owner-name">Sandesh Meshrilal Choudhary</p>
+                    <p class="verified-name">Verified Name: <span class="owner-name">Sandesh Meshrilal Choudhary</span></p>
+                </div>
+                <div class="verified-store-number">41</div>
+            </div>
+        </div>
+
+        <div class="order-info">
+            <div class="order-amount">
+                <p class="payment-amount">₹0</p>
+                <img src="./icon-verified.png" alt="" style="width: 25px; height: 25px;">
+            </div>
+            <p class="payment-date">XX JAN 12:00 AM</p>
+            <p class="payment-order-id">Order ID : XX 0029</p>
+        </div>
+
+        <div class="payment-links">
+            <p class="buttons">Share Receipt</p>
+            <p class="buttons">Pay Again</p>
+            <p class="buttons">Split Bill</p>
+        </div>
+
+        <div class="decoratives">
+            <div class="d1"></div>
+            <div class="d2"></div>
+        </div>
+    </div>
+
+    <div class="advertisement">
+        <div style="display: flex; align-items: center;">
+            <div class="ad-logo"></div>
+            <div class="ad-logo-headers" style="padding-left: 4px;">
+                <p class="ad-primary-h">Make Rent Payment & get assured</p>
+                <p class="ad-secondary-h">₹100 Cashback on Mobile Recharge</p>
+            </div>
+        </div>
+        <p class="ad-button">Pay Now</p>
+    </div>
+
+    <div class="claim-reward">
+        <div class="claim-nav"></div>
+        <div class="claim-content">
+            <div class="claim-card">
+                
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ownerName = document.querySelectorAll('.owner-name');
+        const paymentDate = document.querySelector('.payment-date')
+        const paymentAmount = document.querySelector('.payment-amount');
+        const verifiedStoreNumber = document.querySelector('.verified-store-number');
+
+        let getMonth = (month) => {
+            switch (month + 1) {
+                case 1:
+                    return 'Jan';
+                    break;
+                case 2:
+                    return 'Feb';
+                    break;
+                case 3:
+                    return 'Mar';
+                    break;
+                case 4:
+                    return 'Apr';
+                    break;
+                case 5:
+                    return 'May';
+                    break;
+                case 6:
+                    return 'Jun';
+                    break;
+                case 7:
+                    return 'Jul';
+                    break;
+                case 8:
+                    return 'Aug';
+                    break;
+                case 9:
+                    return 'Sep';
+                    break;
+                case 10:
+                    return 'Oct';
+                    break;
+                case 11:
+                    return 'Nov';
+                    break;
+                case 12:
+                    return 'Dec';
+                    break;
+            
+                default:
+                    break;
+            }
+        }
+
+        let getHour = (time) => {
+            if(time > 12) {
+                return time - 12;
+            }
+        }
+
+        let getMeanTime = (time) => {
+            if(time > 12) {
+                return 'PM';
+            } else {
+                return 'AM';
+            }
+        }
+
+        let getMinutes = (minute) => {
+            if(minute < 10) {
+                return `0${minute}`;
+            } else {
+                return minute;
+            }
+        }
+
+        const back = (element) => {
+            ownerName.forEach(e => e.innerHTML = "Huzaifa Sajid Sheikh Hussain");
+            const time = new Date();
+            const date = time.getDate()
+            const month = getMonth(time.getMonth());
+            const hour = getHour(time.getHours());
+            const min = getMinutes(time.getMinutes());
+            const meanTime = getMeanTime(time.getHours());
+            
+            paymentDate.innerHTML = `${date} ${month}, ${hour}:${min} ${meanTime}`;
+        }
+    </script>
+</body>
+</html>

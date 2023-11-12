@@ -56,8 +56,12 @@
         .payment-details .payment-details-header .store-owner-logo {
             width: 70px;
             height: 70px;
-            background-color: white;
+            /* background-color: white; */
             border-radius: 50px;
+            background-image: url('./store.jpg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
         }
 
         .payment-details .payment-details-header .store-owner-name {
@@ -117,6 +121,8 @@
             width: fit-content;
         }
 
+
+
         /*  */
 
         .payment-info {
@@ -141,6 +147,10 @@
             width: 50px;
             height: 50px;
             border-radius: 50px;
+            background-image: url('./store.jpg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
         }
 
         .payment-info .store-info .seller-info .seller-name {
@@ -310,6 +320,11 @@
             <div class="store-owner-name">
                 <input id="storeOwnerName" type="text" placeholder="Store Owner Name" required>
                 <input id="storeVerifiedID" type="text" placeholder="Store Verified ID" required>
+                <select name="logo" id="selectLogo" onchange="selectIcon(this)">
+                    <option value="store">Store</option>
+                    <option value="cafe">Cafe</option>
+                    <option value="canteen">Canteen</option>
+                </select>
             </div>
         </div>
 
@@ -340,7 +355,7 @@
         <div class="order-info">
             <div class="order-amount">
                 <p class="payment-amount">₹0</p>
-                <img src="./icon-verified.png" alt="" style="width: 25px; height: 25px;">
+                <img src="./verified.jpg" alt="" style="width: 25px; height: 25px;">
             </div>
             <p class="payment-date">XX JAN 12:00 AM</p>
             <p class="payment-order-id">Order ID : XX 0029</p>
@@ -387,6 +402,10 @@
         const paymentAmount = document.querySelector('.payment-amount');
         const verifiedStoreNumber = document.querySelector('.verified-store-number');
         const paymentDetailsForm = document.querySelector('.payment-details');
+        const storeOwnerLogo = document.querySelector('.store-owner-logo');
+        let chooseIcon = ""
+        const sellerImg = document.querySelector('.img');
+        const selectLogo = document.querySelector('#selectLogo');
 
         let payFunc = () => {
             const payAmountField = document.querySelector('#paymentAmount');
@@ -405,8 +424,20 @@
             const meanTime = getMeanTime(time.getHours());
             
             paymentDate.innerHTML = `${date} ${month}, ${hour}:${min} ${meanTime}`;
+            sellerImg.style.backgroundImage = `url(${chooseIcon})`;
+
+            payAmountField.value = "";
+            payTo.value = "";
+            storeID.value = "";
+            selectLogo.value = "";
 
             paymentDetailsForm.classList.add('hidden');
+        }
+
+        let selectIcon = (element) => {
+            let icon = './' + element.value + '.jpg';
+            chooseIcon = icon;
+            storeOwnerLogo.style.backgroundImage = `url(${icon})`;
         }
 
         let getMonth = (month) => {

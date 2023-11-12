@@ -90,6 +90,11 @@
             width: 200px;
             font-size: 30px;
             background-color: rgba(240, 248, 255, 0);
+            padding-bottom: 20px;
+        }
+
+        .payment-details-amount .pd-amount input:focus {
+            outline: none;
         }
 
         .payment-details-amount p {
@@ -269,7 +274,7 @@
             background-color: rgb(79, 190, 249);
             border-radius: 50px;
         }
-        
+
         .claim-reward .claim-nav {
             display: flex;
             justify-content: space-evenly;
@@ -286,6 +291,10 @@
             color: white;
         }
 
+        .hidden {
+            display: none;
+        }
+
     </style>
 </head>
 <body>
@@ -299,20 +308,20 @@
         <div class="payment-details-header">
             <div class="store-owner-logo"></div>
             <div class="store-owner-name">
-                <input type="text" placeholder="Store Owner Name">
-                <input type="text" placeholder="Store Verified ID">
+                <input id="storeOwnerName" type="text" placeholder="Store Owner Name" required>
+                <input id="storeVerifiedID" type="text" placeholder="Store Verified ID" required>
             </div>
         </div>
 
         <div class="payment-details-amount">
             <p>You are paying</p>
             <div class="pd-amount">
-                <input type="number" placeholder="₹0">
+                <input id="paymentAmount" type="number" placeholder="₹0">
             </div>
         </div>
 
         <div class="paybutton">
-            <button class="pay-button" onclick="payFunc(this)">Pay</button>
+            <button class="pay-button" onclick="payFunc()">Pay</button>
         </div>
     </div>
 
@@ -377,6 +386,28 @@
         const paymentDate = document.querySelector('.payment-date')
         const paymentAmount = document.querySelector('.payment-amount');
         const verifiedStoreNumber = document.querySelector('.verified-store-number');
+        const paymentDetailsForm = document.querySelector('.payment-details');
+
+        let payFunc = () => {
+            const payAmountField = document.querySelector('#paymentAmount');
+            const payTo = document.querySelector('#storeOwnerName');
+            const storeID = document.querySelector('#storeVerifiedID');
+
+            ownerName.forEach(element => element.innerHTML = payTo.value);
+            paymentAmount.innerHTML = payAmountField.value;
+            verifiedStoreNumber.innerHTML = storeID.value;
+
+            const time = new Date();
+            const date = time.getDate()
+            const month = getMonth(time.getMonth());
+            const hour = getHour(time.getHours());
+            const min = getMinutes(time.getMinutes());
+            const meanTime = getMeanTime(time.getHours());
+            
+            paymentDate.innerHTML = `${date} ${month}, ${hour}:${min} ${meanTime}`;
+
+            paymentDetailsForm.classList.add('hidden');
+        }
 
         let getMonth = (month) => {
             switch (month + 1) {
@@ -445,15 +476,7 @@
         }
 
         const back = (element) => {
-            ownerName.forEach(e => e.innerHTML = "Huzaifa Sajid Sheikh Hussain");
-            const time = new Date();
-            const date = time.getDate()
-            const month = getMonth(time.getMonth());
-            const hour = getHour(time.getHours());
-            const min = getMinutes(time.getMinutes());
-            const meanTime = getMeanTime(time.getHours());
-            
-            paymentDate.innerHTML = `${date} ${month}, ${hour}:${min} ${meanTime}`;
+            paymentDetailsForm.classList.remove('hidden');
         }
     </script>
 </body>

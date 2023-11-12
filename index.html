@@ -407,10 +407,34 @@
         const sellerImg = document.querySelector('.img');
         const selectLogo = document.querySelector('#selectLogo');
 
+        let isdigit = (str) => {
+            return /^\d+$/.test(str);
+        }
+
+        let isalpha = (str) => {
+            return /^[a-zA-Z]+$/.test(str);
+        }
+
+        let fieldValidation = (amount, owner, id) => {
+            if(isdigit(amount) && isalpha(owner) && isdigit(id) && amount*1 < 100000) {
+                return 1;
+            }
+            return 0;
+        }
+
         let payFunc = () => {
             const payAmountField = document.querySelector('#paymentAmount');
             const payTo = document.querySelector('#storeOwnerName');
             const storeID = document.querySelector('#storeVerifiedID');
+
+            if(!fieldValidation(payAmountField.value, payTo.value, storeID.value)) {
+                console.log('xknzxnc');
+                payAmountField.value = "";
+                payTo.value = "";
+                storeID.value = "";
+                selectLogo.value = "store";
+                return;
+            }
 
             ownerName.forEach(element => element.innerHTML = payTo.value);
             paymentAmount.innerHTML = `₹${Intl.NumberFormat('en-IN').format(payAmountField.value)}`;
@@ -425,11 +449,12 @@
             
             paymentDate.innerHTML = `${date} ${month}, ${hour}:${min} ${meanTime}`;
             sellerImg.style.backgroundImage = `url(${chooseIcon})`;
+            console.log(chooseIcon);
 
             payAmountField.value = "";
             payTo.value = "";
             storeID.value = "";
-            selectLogo.value = "";
+            selectLogo.value = "store";
 
             paymentDetailsForm.classList.add('hidden');
         }

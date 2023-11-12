@@ -413,7 +413,7 @@
             const storeID = document.querySelector('#storeVerifiedID');
 
             ownerName.forEach(element => element.innerHTML = payTo.value);
-            paymentAmount.innerHTML = payAmountField.value;
+            paymentAmount.innerHTML = `₹${Intl.NumberFormat('en-IN').format(payAmountField.value)}`;
             verifiedStoreNumber.innerHTML = storeID.value;
 
             const time = new Date();

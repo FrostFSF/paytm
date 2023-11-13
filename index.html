@@ -286,6 +286,10 @@
             border-radius: 50px;
         }
 
+        .claim-reward {
+            margin: 10px 0px;
+        }
+
         .claim-reward .claim-nav {
             display: flex;
             justify-content: space-evenly;
@@ -305,7 +309,7 @@
         .claim-reward .claim-content {
             width: 100%;
             height: 20vh;
-            background-image: url('./reward-claim.avif');
+            background-image: url('./images/reward-claim.avif');
             background-position: center;
             background-size: cover;
             background-repeat: no-repeat;
@@ -337,7 +341,7 @@
         .claim-reward .claim-content .claim-card .claim-card-content .claim-card-content-part1 {
             width: 50px;
             height: 50px;
-            background-image: url('./coin.png');
+            background-image: url('./images/coin.png');
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
@@ -388,6 +392,13 @@
             padding-left: 20px;
         }
 
+        .error {
+            color: red;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 13px;
+            text-align: center;
+        }
+
         .hidden {
             display: none;
         }
@@ -396,8 +407,8 @@
 </head>
 <body>
     <div class="navbar">
-        <i class="fa-solid fa-arrow-left" onclick="back(this)"></i>
-        <img src="./paytm-logo.png" alt="" class="nav-logo">   
+        <i class="fa-solid fa-arrow-left" onclick="back()"></i>
+        <img src="./paytm-logo.png" alt="" class="nav-logo">  
         <p class="nav-help">Help</p>
     </div>
 
@@ -406,7 +417,9 @@
             <div class="store-owner-logo"></div>
             <div class="store-owner-name">
                 <input id="storeOwnerName" type="text" placeholder="Store Owner Name" required>
-                <input id="storeVerifiedID" type="text" placeholder="Store Verified ID" required>
+                <div class="alertPlaceholder"></div>
+                <input id="storeVerifiedID" type="number" placeholder="Store Verified ID" required>
+                <div class="alertPlaceholder"></div>
                 <select name="logo" id="selectLogo" onchange="selectIcon(this)">
                     <option value="store">Store</option>
                     <option value="cafe">Cafe</option>
@@ -414,11 +427,12 @@
                 </select>
             </div>
         </div>
-
+        
         <div class="payment-details-amount">
             <p>You are paying</p>
             <div class="pd-amount">
                 <input id="paymentAmount" type="number" placeholder="₹0">
+                <div class="alertPlaceholder"></div>
             </div>
         </div>
 
@@ -504,78 +518,20 @@
     </div>
 
     <script>
-        const ownerName = document.querySelectorAll('.owner-name');
-        const paymentDate = document.querySelector('.payment-date')
-        const paymentAmount = document.querySelector('.payment-amount');
-        const verifiedStoreNumber = document.querySelector('.verified-store-number');
+        const ownerField = document.querySelectorAll('.owner-name');
+        const idField = document.querySelector('.verified-store-number');
+        const logoField = document.querySelector('.img');
+        const timeField = document.querySelector('.payment-date');
         const paymentDetailsForm = document.querySelector('.payment-details');
-        const storeOwnerLogo = document.querySelector('.store-owner-logo');
-        let chooseIcon = ""
-        const sellerImg = document.querySelector('.img');
-        const selectLogo = document.querySelector('#selectLogo');
+        const paymentFormLogo = document.querySelector('.store-owner-logo');
+        const selectLogoField = document.querySelector('#selectLogo');
+        const paymentAmountField = document.querySelector('.payment-amount');
+        const alertPlaceHolders = document.querySelectorAll('.alertPlaceholder');
 
-        let isdigit = (str) => {
-            return /^\d+$/.test(str);
-        }
-
-        let isalpha = (str) => {
-            return /^[a-zA-Z\s]+$/.test(str);
-        }
-
-        let fieldValidation = (amount, owner, id) => {
-            console.log(isdigit(amount) + " " + isalpha(owner) + " " + isdigit(id));
-            if(isdigit(amount) && isalpha(owner) && isdigit(id) && amount*1 < 100000) {
-                return 1;
-            }
-            return 0;
-        }
-
-        let payFunc = () => {
-            const payAmountField = document.querySelector('#paymentAmount');
-            const payTo = document.querySelector('#storeOwnerName');
-            const storeID = document.querySelector('#storeVerifiedID');
-
-            if(!fieldValidation(payAmountField.value, payTo.value, storeID.value)) {
-                payAmountField.value = "";
-                payTo.value = "";
-                storeID.value = "";
-                selectLogo.value = "store";
-                return;
-            }
-
-            ownerName.forEach(element => element.innerHTML = payTo.value);
-            paymentAmount.innerHTML = `₹${Intl.NumberFormat('en-IN').format(payAmountField.value)}`;
-            verifiedStoreNumber.innerHTML = storeID.value;
-
-            const time = new Date();
-            const date = time.getDate()
-            const month = getMonth(time.getMonth());
-            const hour = getHour(time.getHours());
-            const min = getMinutes(time.getMinutes());
-            const meanTime = getMeanTime(time.getHours());
-            
-            paymentDate.innerHTML = `${date} ${month}, ${hour}:${min} ${meanTime}`;
-            sellerImg.style.backgroundImage = `url(${chooseIcon})`;
-            console.log(chooseIcon);
-
-            payAmountField.value = "";
-            payTo.value = "";
-            storeID.value = "";
-            selectLogo.value = "store";
-
-            paymentDetailsForm.classList.add('hidden');
-        }
-
-        let selectIcon = (element) => {
-            let icon = './' + element.value + '.jpg';
-            chooseIcon = icon;
-            storeOwnerLogo.style.backgroundImage = `url(${icon})`;
-        }
-
-        let getMonth = (month) => {
-            switch (month + 1) {
+        const calculateMonth = (value) => {
+            switch (value + 1) {
                 case 1:
-                    return 'Jan';
+                    return 'Jan'
                     break;
                 case 2:
                     return 'Feb';
@@ -616,33 +572,112 @@
             }
         }
 
-        let getHour = (time) => {
-            if(time > 12) {
-                return time - 12;
+        const calculateHours = (value) => {
+            if(value > 12) {
+                return value - 12;
             } else {
-                return time;
+                return value;
             }
         }
 
-        let getMeanTime = (time) => {
-            if(time > 12) {
+        const getMeanTime = (time) => {
+            if(time.getHours() >= 12) {
                 return 'PM';
             } else {
                 return 'AM';
             }
         }
 
-        let getMinutes = (minute) => {
-            if(minute < 10) {
-                return `0${minute}`;
-            } else {
-                return minute;
-            }
+        const formatTime = (time) => {
+            let result = {};
+
+            result.date = time.getDate();
+            result.month = calculateMonth(time.getMonth());
+            result.hours = calculateHours(time.getHours());
+            result.minutes = time.getMinutes();
+            result.meanTime = getMeanTime(time);
+
+            return result;
         }
 
-        const back = (element) => {
+        const replaceLogo = (logoField, logoInput) => {
+            let path = `./${logoInput.value}.jpg`;
+            logoField.style.backgroundImage = `url(${path})`;
+        }
+
+        const replaceTime = (timePlaceHolder) => {
+            let currTime = new Date();
+            let formattedTime = formatTime(currTime);
+
+            timePlaceHolder.innerHTML = `${formattedTime.date} ${formattedTime.month} ${formattedTime.hours}:${formattedTime.minutes} ${formattedTime.meanTime}`;
+        }
+
+        const resetFields = (storeOwnerName,storeID,amount,alertPlaceholder) => {
+            storeOwnerName.value = "";
+            storeID.value = "";
+            amount.value = "";
+            alertPlaceholder.forEach(placeholder => placeholder.innerHTML = "");
+        }
+
+        const createAlert = (str) => {
+            const alertDiv = document.createElement('div');
+            alertDiv.classList.add('error');
+            const msg = document.createElement('p');
+            msg.innerHTML = str;
+            alertDiv.append(msg);
+
+            return alertDiv;
+        }
+
+        const isAlpha = (str) => {
+            return /^[a-zA-Z\s]+$/.test(str);
+        }
+
+        const payFunc = () => {
+            const storeOwnerName = document.querySelector('#storeOwnerName');
+            const storeID = document.querySelector('#storeVerifiedID');
+            const logo = document.querySelector('#selectLogo');
+            const amount = document.querySelector('#paymentAmount');
+
+            if(!isAlpha(storeOwnerName.value) || amount.value === "" || amount.value*1 > 100001) {
+                let myalert = "";
+                if(!isAlpha(storeOwnerName.value) || storeOwnerName.value === "") {
+                    myalert = createAlert("Please enter alphabets only");
+                    storeOwnerName.focus();
+                    alertPlaceHolders[0].innerHTML = "";
+                    alertPlaceHolders[0].append(myalert);
+                } else if (amount.value*1 > 100001) {
+                    myalert = createAlert("Please enter price below $1,00,000");
+                    amount.focus();
+                    alertPlaceHolders[2].innerHTML = "";
+                    alertPlaceHolders[2].append(myalert);
+                } else {
+                    myalert = createAlert("Please enter appropriate price");
+                    amount.focus();
+                    alertPlaceHolders[2].innerHTML = "";
+                    alertPlaceHolders[2].append(myalert);
+                }
+                return;
+            }
+
+            ownerField.forEach(field => field.innerHTML = storeOwnerName.value);
+            idField.innerHTML = storeID.value;
+            paymentAmountField.innerHTML = '₹' + amount.value;
+            replaceLogo(logoField, logo);
+            replaceTime(timeField);
+            resetFields(storeOwnerName,storeID,amount,alertPlaceHolders);
+
+            back();
+        }
+
+        const selectIcon = (element) => {
+            replaceLogo(paymentFormLogo,selectLogoField);
+        }
+
+        const back = () => {
             paymentDetailsForm.classList.toggle('hidden');
         }
+
     </script>
 </body>
 </html>

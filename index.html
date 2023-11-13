@@ -126,10 +126,8 @@
         /*  */
 
         .payment-info {
-            /* background-color: #d6f0f0db; */
             background-color: #e1f3f3;
             width: 93vw;
-            /* min-height: 50vh; */
             height: auto;
             border-radius: 10px;
             margin: 10px auto;
@@ -258,8 +256,10 @@
         .advertisement .ad-logo {
             width: 40px;
             height: 40px;
-            border-radius: 50px;
-            background-color: whitesmoke;
+            background-image: url("./house.png");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 25px;
         }
 
         .advertisement .ad-logo-headers {
@@ -300,6 +300,92 @@
             font-weight: bold;
             font-size: 12px;
             color: white;
+        }
+
+        .claim-reward .claim-content {
+            width: 100%;
+            height: 20vh;
+            background-image: url('./images/reward-claim.avif');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+        }
+
+        .claim-reward .claim-content .claim-card {
+            width: 70vw;
+            height: 15vh;
+            background-color: rgb(255, 255, 255);
+            margin: auto;
+            display: grid;
+            border-radius: 10px;
+            grid-template-rows: 0.85fr;
+            overflow: hidden;
+            background-color: rgb(48, 162, 204);
+        }
+        
+        .claim-reward .claim-content .claim-card .claim-card-content {
+            background-color: rgb(255, 255, 255);
+            border-radius: 10px;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            padding: 5px 10px;
+        }
+
+        .claim-reward .claim-content .claim-card .claim-card-content .claim-card-content-part1 {
+            width: 50px;
+            height: 50px;
+            background-image: url('./images/coin.png');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .claim-reward .claim-content .claim-card .claim-card-content .claim-card-content-part2 {
+            padding-left: 20px;
+        }
+
+        .claim-reward .claim-content .claim-card .claim-card-content .claim-card-content-part2 div:nth-child(1) {
+            font-family: 'Inter', sans-serif;
+            font-weight: bold;
+            font-size: 14px;
+            color: rgb(51, 170, 225);
+        }
+
+        .claim-reward .claim-content .claim-card .claim-card-content .claim-card-content-part2 div:nth-child(2) {
+            font-family: 'Manrope', sans-serif;
+            font-size: 12px;
+        }
+
+        .claim-reward .claim-content .claim-card .claim-card-content .claim-card-content-part2 div:nth-child(3) {
+            font-family: 'Inter', sans-serif;
+            font-weight: bold;
+            font-size: 10px;
+            background-color: rgb(9, 172, 232);
+            width: fit-content;
+            margin-top: 3px;
+            padding: 5px 10px;
+            border-radius: 50px;
+            color: white;
+        }
+
+        .claim-card-content .sec .points {
+            width: 4px;
+            height: 4px;
+            border-radius: 5px;
+            background-color: rgb(113, 113, 113);
+        }
+
+        .claim-card-content .sec {
+            width: fit-content;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            padding-left: 20px;
         }
 
         .hidden {
@@ -356,7 +442,7 @@
         <div class="order-info">
             <div class="order-amount">
                 <p class="payment-amount">₹0</p>
-                <iframe src="https://giphy.com/embed/DHsnvtvw7YFEraJC8m" width="25px" height="25px" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/paytm-verified-DHsnvtvw7YFEraJC8m"></a></p>
+                <iframe src="https://giphy.com/embed/DHsnvtvw7YFEraJC8m" width="25px" height="25px" frameBorder="0" class="giphy-embed" allowFullScreen style="padding-left: 10px;"></iframe><p><a href="https://giphy.com/gifs/paytm-verified-DHsnvtvw7YFEraJC8m"></a></p>
             </div>
             <p class="payment-date">XX JAN 12:00 AM</p>
             <p class="payment-order-id">Order ID : XX 0029</p>
@@ -392,7 +478,27 @@
         </div>
         <div class="claim-content">
             <div class="claim-card">
-                
+                <div class="claim-card-content">
+                    <div class="claim-card-content-part1"></div>
+                    <div class="sec">
+                        <div class="points"></div>
+                        <div class="points"></div>
+                        <div class="points"></div>
+                        <div class="points"></div>
+                        <div class="points"></div>
+                        <div class="points"></div>
+                        <div class="points"></div>
+                        <div class="points"></div>
+                        <div class="points"></div>
+                        <div class="points"></div>
+                    </div>
+                    <div class="claim-card-content-part2">
+                        <div><p>BIG SAVING</p></div>
+                        <div><p>try and win upto 500 worth of giftcards</p></div>
+                        <div><p>Participate now</p></div>
+                    </div>
+                </div>
+                <div class="claim-card-foot"></div>
             </div>
         </div>
     </div>
@@ -513,6 +619,8 @@
         let getHour = (time) => {
             if(time > 12) {
                 return time - 12;
+            } else {
+                return time;
             }
         }
 

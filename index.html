@@ -126,7 +126,8 @@
         /*  */
 
         .payment-info {
-            background-color: rgba(6, 195, 220, 0.119);
+            /* background-color: rgba(6, 195, 220, 0.119); */
+            background-color: #e1f0f0;
             width: 93vw;
             /* min-height: 50vh; */
             height: auto;
@@ -355,7 +356,7 @@
         <div class="order-info">
             <div class="order-amount">
                 <p class="payment-amount">₹0</p>
-                <img src="./verified.png" alt="" style="width: 25px; height: 25px;">
+                <iframe src="https://giphy.com/embed/DHsnvtvw7YFEraJC8m" width="25px" height="25px" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/paytm-verified-DHsnvtvw7YFEraJC8m"></a></p>
             </div>
             <p class="payment-date">XX JAN 12:00 AM</p>
             <p class="payment-order-id">Order ID : XX 0029</p>
@@ -412,10 +413,11 @@
         }
 
         let isalpha = (str) => {
-            return /^[a-zA-Z]+$/.test(str);
+            return /^[a-zA-Z\s]+$/.test(str);
         }
 
         let fieldValidation = (amount, owner, id) => {
+            console.log(isdigit(amount) + " " + isalpha(owner) + " " + isdigit(id));
             if(isdigit(amount) && isalpha(owner) && isdigit(id) && amount*1 < 100000) {
                 return 1;
             }
@@ -428,7 +430,6 @@
             const storeID = document.querySelector('#storeVerifiedID');
 
             if(!fieldValidation(payAmountField.value, payTo.value, storeID.value)) {
-                console.log('xknzxnc');
                 payAmountField.value = "";
                 payTo.value = "";
                 storeID.value = "";

@@ -680,6 +680,9 @@
         }
 
         const back = () => {
+            const storeOwnerName = document.querySelector('#storeOwnerName');
+            const storeID = document.querySelector('#storeVerifiedID');
+            const amount = document.querySelector('#paymentAmount');
             resetFields(storeOwnerName,storeID,amount,alertPlaceHolders);
             paymentDetailsForm.classList.toggle('hidden');
         }

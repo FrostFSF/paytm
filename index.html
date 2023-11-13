@@ -639,7 +639,7 @@
             const logo = document.querySelector('#selectLogo');
             const amount = document.querySelector('#paymentAmount');
 
-            if(!isAlpha(storeOwnerName.value) || amount.value === "" || amount.value*1 > 100001) {
+            if(!isAlpha(storeOwnerName.value) || amount.value === "" || amount.value*1 > 100001 || amount.value*1 < 1) {
                 let myalert = "";
                 if(!isAlpha(storeOwnerName.value) || storeOwnerName.value === "") {
                     myalert = createAlert("Please enter alphabets only");
@@ -647,11 +647,16 @@
                     alertPlaceHolders[0].innerHTML = "";
                     alertPlaceHolders[0].append(myalert);
                 } else if (amount.value*1 > 100001) {
-                    myalert = createAlert("Please enter price below $1,00,000");
+                    myalert = createAlert("Please enter price of maximum ₹1,00,000");
                     amount.focus();
                     alertPlaceHolders[2].innerHTML = "";
                     alertPlaceHolders[2].append(myalert);
-                } else {
+                } else if(amount.value*1 < 1) {
+                    myalert = createAlert("Please enter price of minimum ₹1");
+                    amount.focus();
+                    alertPlaceHolders[2].innerHTML = "";
+                    alertPlaceHolders[2].append(myalert);
+                }else {
                     myalert = createAlert("Please enter appropriate price");
                     amount.focus();
                     alertPlaceHolders[2].innerHTML = "";

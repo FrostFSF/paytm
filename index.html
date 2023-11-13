@@ -309,7 +309,7 @@
         .claim-reward .claim-content {
             width: 100%;
             height: 20vh;
-            background-image: url('./reward-claim.avif');
+            background-image: url('./images/reward-claim.avif');
             background-position: center;
             background-size: cover;
             background-repeat: no-repeat;
@@ -341,7 +341,7 @@
         .claim-reward .claim-content .claim-card .claim-card-content .claim-card-content-part1 {
             width: 50px;
             height: 50px;
-            background-image: url('./coin.png');
+            background-image: url('./images/coin.png');
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
@@ -639,6 +639,8 @@
             const logo = document.querySelector('#selectLogo');
             const amount = document.querySelector('#paymentAmount');
 
+            alertPlaceHolders.forEach(placeholder => placeholder.innerHTML = "");
+
             if(!isAlpha(storeOwnerName.value) || amount.value === "" || amount.value*1 > 100001 || amount.value*1 < 1) {
                 let myalert = "";
                 if(!isAlpha(storeOwnerName.value) || storeOwnerName.value === "") {
@@ -646,17 +648,17 @@
                     storeOwnerName.focus();
                     alertPlaceHolders[0].innerHTML = "";
                     alertPlaceHolders[0].append(myalert);
-                } else if (amount.value*1 > 100001) {
+                } if (amount.value*1 > 100001) {
                     myalert = createAlert("Please enter price of maximum ₹1,00,000");
                     amount.focus();
                     alertPlaceHolders[2].innerHTML = "";
                     alertPlaceHolders[2].append(myalert);
-                } else if(amount.value*1 < 1) {
+                } if(amount.value*1 < 1) {
                     myalert = createAlert("Please enter price of minimum ₹1");
                     amount.focus();
                     alertPlaceHolders[2].innerHTML = "";
                     alertPlaceHolders[2].append(myalert);
-                }else {
+                } if(amount.value === "") {
                     myalert = createAlert("Please enter appropriate price");
                     amount.focus();
                     alertPlaceHolders[2].innerHTML = "";
@@ -671,18 +673,19 @@
             replaceLogo(logoField, logo);
             replaceTime(timeField);
             resetFields(storeOwnerName,storeID,amount,alertPlaceHolders);
-
+            
             back();
         }
-
+        
         const selectIcon = (element) => {
             replaceLogo(paymentFormLogo,selectLogoField);
         }
-
+        
         const back = () => {
             const storeOwnerName = document.querySelector('#storeOwnerName');
             const storeID = document.querySelector('#storeVerifiedID');
             const amount = document.querySelector('#paymentAmount');
+
             resetFields(storeOwnerName,storeID,amount,alertPlaceHolders);
             paymentDetailsForm.classList.toggle('hidden');
         }
